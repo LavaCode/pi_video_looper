@@ -338,7 +338,7 @@ class VideoLooper:
 
         while self._running:
             event = pygame.event.wait()
-            pressed = pygame.key.get_pressed()
+            pressed = pygame.event.get()
             if event.type == pygame.KEYDOWN:
                 # If pressed key is ESC quit program
                 if event.key == pygame.K_ESCAPE:
@@ -347,11 +347,11 @@ class VideoLooper:
                 if event.key == pygame.K_k:
                     self._print("k was pressed. skipping...")
                     self._player.stop(3)
-                if pressed[pygame.K_s]:
+                if event.key == pygame.K_s and pressed.type == pygame.KEYDOWN :
                     if self._playbackStopped:
                         self._print("s was pressed. starting...")
                         self._playbackStopped = False
-                if not pressed[pygame.K_s]:
+                elif event.key == pygame.K_s and pressed.type == pygame.KEYUP:
                         self._print("s was pressed. stopping...")
                         self._playbackStopped = True
                         self._player.stop(3)
