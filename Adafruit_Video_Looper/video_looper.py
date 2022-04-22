@@ -20,10 +20,6 @@ from .playlist_builders import build_playlist_m3u
 
 #edit
 import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-input_state = GPIO.input(17)
 #
 
 
@@ -363,6 +359,12 @@ class VideoLooper:
             subprocess.check_call(cmd)
             
     def _handle_keyboard_shortcuts(self):
+
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+        input_state = GPIO.input(17)
+
         while self._running:
             event = pygame.event.wait()
             if event.type == pygame.KEYDOWN:
