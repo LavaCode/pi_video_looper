@@ -22,6 +22,9 @@ from .alsa_config import parse_hw_device
 from .model import Playlist, Movie
 from .playlist_builders import build_playlist_m3u
 
+dtoverlay=gpio-key,gpio=17,active_low=1,gpio_pull=up,keycode=83
+dtoverlay=gpio-poweroff,gpiopin=27,active_low
+
 class VideoLooper:
 
     def __init__(self, config_path):
@@ -335,8 +338,6 @@ class VideoLooper:
             subprocess.check_call(cmd)
             
     def _handle_keyboard_shortcuts(self):
-
-       dtoverlay=gpio-key,gpio=17,active_low=1,gpio_pull=up,keycode=83
 
         while self._running:
             event = pygame.event.wait()
