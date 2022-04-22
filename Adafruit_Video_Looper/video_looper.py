@@ -374,12 +374,12 @@ class VideoLooper:
                     self._print("k was pressed. skipping...")
                     self._player.stop(3)
                 #if event.key == pygame.K_s:
-                if input_state:
+                if input_state == True:
                     if self._playbackStopped:
                         self._print("s was pressed. starting...")
                         self._playbackStopped = False
                     #else:
-                elif not input_state:
+                elif input_state == False:
                         self._print("s was pressed. stopping...")
                         self._playbackStopped = True
                         self._player.stop(3)
