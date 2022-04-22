@@ -22,10 +22,6 @@ from .alsa_config import parse_hw_device
 from .model import Playlist, Movie
 from .playlist_builders import build_playlist_m3u
 
-#edit
-import RPi.GPIO as GPIO
-#
-
 class VideoLooper:
 
     def __init__(self, config_path):
@@ -340,11 +336,6 @@ class VideoLooper:
             
     def _handle_keyboard_shortcuts(self):
 
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-        input_state = GPIO.input(17)
-
        dtoverlay=gpio-key,gpio=17,active_low=1,gpio_pull=up,keycode=83
 
         while self._running:
@@ -357,11 +348,11 @@ class VideoLooper:
                 if event.key == pygame.K_k:
                     self._print("k was pressed. skipping...")
                     self._player.stop(3)
-                if input_state == True or event.key == pygame.K_s:
+                if event.key == pygame.K_s:
                     if self._playbackStopped:
                         self._print("s was pressed. starting...")
                         self._playbackStopped = False
-                elif input_state == False or event.key == pygame.K_s:
+                    else:
                         self._print("s was pressed. stopping...")
                         self._playbackStopped = True
                         self._player.stop(3)
