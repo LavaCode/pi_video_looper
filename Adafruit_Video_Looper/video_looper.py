@@ -18,6 +18,13 @@ from .alsa_config import parse_hw_device
 from .model import Playlist, Movie
 from .playlist_builders import build_playlist_m3u
 
+#edit
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+input_state = GPIO.input(17)
+
 
 # Basic video looper architecure:
 #
