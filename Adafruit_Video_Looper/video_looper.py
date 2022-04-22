@@ -1,6 +1,10 @@
-# Copyright 2015 Adafruit Industries.
-# Author: Tony DiCola
+# Copyright 2022 THEBULB.
+# Edit on original Adafruit Pi Video Looper
+# Author: Tony DiCola & Kasper Zegel
 # License: GNU GPLv2, see LICENSE.txt
+
+# Release; April 2022
+# Client; Tom Hoogenboom
 
 import configparser
 import importlib
@@ -22,30 +26,6 @@ from .playlist_builders import build_playlist_m3u
 import RPi.GPIO as GPIO
 #
 
-
-# Basic video looper architecure:
-#
-# - VideoLooper class contains all the main logic for running the looper program.
-#
-# - Almost all state is configured in a .ini config file which is required for
-#   loading and using the VideoLooper class.
-#
-# - VideoLooper has loose coupling with file reader and video player classes that
-#   are used to find movie files and play videos respectively.  The configuration
-#   defines which file reader and video player module will be loaded.
-#
-# - A file reader module needs to define at top level create_file_reader function
-#   that takes as a parameter a ConfigParser config object.  The function should
-#   return an instance of a file reader class.  See usb_drive.py and directory.py
-#   for the two provided file readers and their public interface.
-#
-# - Similarly a video player modules needs to define a top level create_player
-#   function that takes in configuration.  See omxplayer.py and hello_video.py
-#   for the two provided video players and their public interface.
-#
-# - Future file readers and video players can be provided and referenced in the
-#   config to extend the video player use to read from different file sources
-#   or use different video players.
 class VideoLooper:
 
     def __init__(self, config_path):
@@ -365,6 +345,8 @@ class VideoLooper:
 
         input_state = GPIO.input(17)
 
+       dtoverlay=gpio-key,gpio=17,active_low=1,gpio_pull=up,keycode=83
+
         while self._running:
             event = pygame.event.wait()
             if event.type == pygame.KEYDOWN:
@@ -375,21 +357,17 @@ class VideoLooper:
                 if event.key == pygame.K_k:
                     self._print("k was pressed. skipping...")
                     self._player.stop(3)
-                #if event.key == pygame.K_s:
-                if input_state == True:
+                if input_state == True or event.key == pygame.K_s:
                     if self._playbackStopped:
                         self._print("s was pressed. starting...")
                         self._playbackStopped = False
-                    #else:
-                elif input_state == False:
+                elif input_state == False or event.key == pygame.K_s:
                         self._print("s was pressed. stopping...")
                         self._playbackStopped = True
                         self._player.stop(3)
                 if event.key == pygame.K_p:
                     self._print("p was pressed. shutting down...")
                     self.quit(True)
-                    
-
 
     def run(self):
         """Main program loop.  Will never return!"""
