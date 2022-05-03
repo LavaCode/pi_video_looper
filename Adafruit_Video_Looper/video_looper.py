@@ -16,7 +16,11 @@ import signal
 import time
 import pygame
 import threading
+import RPi.GPIO as GPIO
 from datetime import datetime
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(26,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
 
 from .alsa_config import parse_hw_device
 from .model import Playlist, Movie
@@ -346,17 +350,17 @@ class VideoLooper:
                 if event.key == pygame.K_k:
                     self._print("k was pressed. skipping...")
                     self._player.stop(3)
-                if event.key == pygame.K_s:
-                    self._print("s was pressed. stopping...")
-                    self._playbackStopped = True
-                    self._player.stop(3)
+                if GPIO.input(26):
+                    if self._playbackStopped:
+                        self._print("s was pressed. starting...")
+                        self._playbackStopped = False
+                    else:
+                        self._print("s was pressed. stopping...")
+                        self._playbackStopped = True
+                        self._player.stop(3)
                 if event.key == pygame.K_p:
                     self._print("p was pressed. shutting down...")
                     self.quit(True)
-            elif event.type == pygame.KEYUP:
-                if self._playbackStopped:
-                    self._print("s was pressed. starting...")
-                    self._playbackStopped = False
 
 
     def run(self):
