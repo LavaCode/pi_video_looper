@@ -20,7 +20,7 @@ import RPi.GPIO as GPIO
 from datetime import datetime
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(26,GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(26,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 
 from .alsa_config import parse_hw_device
 from .model import Playlist, Movie
