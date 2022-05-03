@@ -341,6 +341,16 @@ class VideoLooper:
     def _handle_keyboard_shortcuts(self):
 
         while self._running:
+
+            if GPIO.input(26):
+                if self._playbackStopped:
+                    self._print("s was pressed. starting...")
+                    self._playbackStopped = False
+                else:
+                    self._print("s was pressed. stopping...")
+                    self._playbackStopped = True
+                    self._player.stop(3)
+
             event = pygame.event.wait()
             if event.type == pygame.KEYDOWN:
                 # If pressed key is ESC quit program
@@ -350,14 +360,14 @@ class VideoLooper:
                 if event.key == pygame.K_k:
                     self._print("k was pressed. skipping...")
                     self._player.stop(3)
-                if GPIO.input(26):
-                    if self._playbackStopped:
-                        self._print("s was pressed. starting...")
-                        self._playbackStopped = False
-                    else:
-                        self._print("s was pressed. stopping...")
-                        self._playbackStopped = True
-                        self._player.stop(3)
+                # if GPIO.input(26):
+                #     if self._playbackStopped:
+                #         self._print("s was pressed. starting...")
+                #         self._playbackStopped = False
+                #     else:
+                #         self._print("s was pressed. stopping...")
+                #         self._playbackStopped = True
+                #         self._player.stop(3)
                 if event.key == pygame.K_p:
                     self._print("p was pressed. shutting down...")
                     self.quit(True)
