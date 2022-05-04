@@ -351,9 +351,10 @@ class VideoLooper:
                 if event.key == pygame.K_p:
                     self._print("p was pressed. shutting down...")
                     self.quit(True)
-            elif event.type == pygame.KEYUP:
-                if self._playbackStopped:
-                    self._playbackStopped = False
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_s:
+                    if self._playbackStopped == True:
+                        self._playbackStopped = False
 
 
     def run(self):
