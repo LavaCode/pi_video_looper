@@ -1,11 +1,3 @@
-# Copyright 2022 THEBULB.
-# Edit on original Adafruit Pi Video Looper
-# Author: Tony DiCola & Kasper Zegel
-# License: GNU GPLv2, see LICENSE.txt
-
-# Release; April 2022
-# Client; Tom Hoogenboom
-
 import configparser
 import importlib
 import os
